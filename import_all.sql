@@ -1,0 +1,14 @@
+\i insert_countries.sql
+\i insert_airports.sql
+\i insert_geocities15k.sql
+\i insert_circuits.sql
+\i insert_constructors.sql
+\i insert_drivers.sql
+\i insert_seasons.sql
+\i insert_status.sql
+\i insert_races.sql
+\i insert_qualifying_updated.sql
+\i insert_results.sql
+\i insert_driverStandings.sql
+\i insert_laptimes.sql
+\i insert_pitstops.sql
