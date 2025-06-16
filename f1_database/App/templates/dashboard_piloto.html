@@ -1,0 +1,60 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h2>Dashboard do Piloto: {{ nome_piloto }}</h2>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h3>Última Escuderia</h3>
+        <p>{{ escuderia_piloto }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Período na Base</h3>
+        <p>{{ primeiro_ano }} - {{ ultimo_ano }}</p>
+    </div>
+</div>
+
+<hr>
+
+    <div class="report-container">
+    <h4>Desempenho por Ano e Circuito</h4>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ano</th>
+                    <th>Circuito</th>
+                    <th>Pontos Obtidos</th>
+                    <th>Vitórias</th>
+                    <th>Corridas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if performance_data %}
+                    {% for perf in performance_data %}
+                    <tr>
+                        <td>{{ perf[0] }}</td>
+                        <td>{{ perf[1] }}</td>
+                        <td>{{ perf[2] }}</td>
+                        <td>{{ perf[3] }}</td>
+                        <td>{{ perf[4] }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="5">Nenhum dado de performance encontrado.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<hr>
+
+<div class="actions">
+    <h3>Meus Relatórios Detalhados</h3>
+    <ul>
+        <li><a href="{{ url_for('exibir_relatorio', nome_funcao='piloto_pontos_por_ano') }}">Consultar Pontos por Corrida e Ano</a></li>
+        <li><a href="{{ url_for('exibir_relatorio', nome_funcao='piloto_status') }}">Consultar Meus Resultados por Status</a></li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                {% for coluna in colunas %}
+                    <th>{{ coluna }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if resultados %}
+                {% for linha in resultados %}
+                <tr>
+                    {% for celula in linha %}
+                        <td>{{ celula }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="{{ colunas|length }}">Nenhum resultado encontrado.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ url_for('dashboard') }}" class="back-link">Voltar ao Dashboard</a>
+{% endblock %}

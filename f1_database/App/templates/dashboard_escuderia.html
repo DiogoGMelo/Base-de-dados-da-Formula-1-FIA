@@ -1,0 +1,60 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h2>Dashboard da Escuderia: {{ nome_escuderia }}</h2>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h3>Total de Vitórias</h3>
+        <p>{{ total_vitorias }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Pilotos Diferentes</h3>
+        <p>{{ qtd_pilotos }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Período na Base</h3>
+        <p>{{ primeiro_ano }} - {{ ultimo_ano }}</p>
+    </div>
+</div>
+
+<hr>
+
+<div class="actions">
+    <h3>Relatórios Disponíveis</h3>
+    <ul>
+        <li><a href="{{ url_for('exibir_relatorio', nome_funcao='escuderia_vitorias_pilotos') }}">Relatório de Vitórias dos Pilotos</a></li>
+        <li><a href="{{ url_for('exibir_relatorio', nome_funcao='escuderia_status') }}">Resultados da Escuderia por Status</a></li>
+    </ul>
+</div>
+
+<hr>
+
+<div class="admin-actions">
+    <h3>Ações da Escuderia</h3>
+
+    <div class="form-container">
+        <h4>Consultar Piloto por Primeiro Nome</h4>
+        <p>Busca pilotos com um determinado nome que já correram pela sua escuderia.</p>
+        <form action="{{ url_for('escuderia_consult_pilot') }}" method="post">
+            <div class="form-group">
+                <label for="forename">Primeiro Nome do Piloto</label>
+                <input type="text" id="forename" name="forename" required>
+            </div>
+            <button type="submit">Consultar</button>
+        </form>
+    </div>
+
+    <div class="form-container">
+        <h4>Inserir Novo(s) Piloto(s) via Arquivo</h4>
+        <p>Envie um arquivo .csv com os dados dos pilotos. Cada linha representa um piloto.</p>
+        <form action="{{ url_for('escuderia_upload_pilots') }}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="pilot_file">Arquivo de Pilotos (.csv)</label>
+                <input type="file" id="pilot_file" name="pilot_file" accept=".csv" required>
+            </div>
+            <button type="submit">Enviar Arquivo</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 - Análise de Dados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Plataforma de Análise - Fórmula 1</h1>
+        {% if session.loggedin %}
+            <nav>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <span>Olá, {{ session.tipo }}!</span>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+        {% endif %}
+    </header>
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 - Projeto Laboratório de Bases de Dados</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,206 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h2>Dashboard do Administrador</h2>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h3>Total de Pilotos</h3>
+        <p>{{ total_pilotos }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Total de Escuderias</h3>
+        <p>{{ total_escuderias }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Total de Temporadas</h3>
+        <p>{{ total_temporadas }}</p>
+    </div>
+</div>
+
+<hr>
+
+<div class="reports-grid">
+    <div class="report-container">
+        <h4>Corridas de {{ ano_corrente }}</h4>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome da Corrida</th>
+                        <th>Nº Voltas</th>
+                        <th>Tempo do Vencedor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if races_2025 %}
+                        {% for race in races_2025 %}
+                        <tr>
+                            <td>{{ race[0] }}</td>
+                            <td>{{ race[1] }}</td>
+                            <td>{{ race[2] }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="3">Nenhuma corrida encontrada para {{ ano_corrente }}.</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="report-container">
+        <h4>Pontos das Escuderias em {{ ano_corrente }}</h4>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Escuderia</th>
+                        <th>Total de Pontos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if constructors_2025 %}
+                        {% for constructor in constructors_2025 %}
+                        <tr>
+                            <td>{{ constructor[0] }}</td>
+                            <td>{{ constructor[1] }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="2">Nenhuma escuderia com pontos em {{ ano_corrente }}.</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="report-container">
+        <h4>Pontos dos Pilotos em {{ ano_corrente }}</h4>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Piloto</th>
+                        <th>Total de Pontos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if pilots_2025 %}
+                        {% for pilot in pilots_2025 %}
+                        <tr>
+                            <td>{{ pilot[0] }}</td>
+                            <td>{{ pilot[1] }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="2">Nenhum piloto com pontos em {{ ano_corrente }}.</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="admin-actions">
+    <h3>Ações e Relatórios Detalhados</h3>
+    
+    <div class="report-links">
+        <ul>
+            <li><a href="{{ url_for('exibir_relatorio', nome_funcao='admin_status_resultados') }}">Relatório Geral de Resultados por Status</a></li>
+            <li><a href="{{ url_for('admin_report_airports') }}">Relatório de Aeroportos Próximos a uma Cidade</a></li>
+            <li><a href="{{ url_for('exibir_relatorio', nome_funcao='admin_escuderias_totais') }}">Relatório de Total de Corridas por Escuderia</a></li>
+        </ul>
+    </div>
+    
+    <div class="form-container">
+        <h4>Cadastrar Nova Escuderia</h4>
+        <form action="{{ url_for('add_constructor') }}" method="post">
+            <div class="form-group">
+                <label for="id">ID da Escuderia (Manual)</label>
+                <input type="number" id="id" name="id" required>
+            </div>
+            <div class="form-group">
+                <label for="constructor_ref">Ref. da Escuderia (ex: mclaren)</label>
+                <input type="text" id="constructor_ref" name="constructor_ref" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Nome da Escuderia (ex: McLaren)</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="nationality">Nacionalidade</label>
+                <input type="text" id="nationality" name="nationality" required>
+            </div>
+            <div class="form-group">
+                <label for="url">URL (Wikipedia)</label>
+                <input type="url" id="url" name="url" required>
+            </div>
+            <button type="submit">Cadastrar Escuderia</button>
+        </form>
+    </div>
+
+    <div class="form-container">
+        <h4>Cadastrar Novo Piloto</h4>
+        <form action="{{ url_for('add_driver') }}" method="post">
+            <div class="form-group">
+                <label for="driver_ref">Ref. do Piloto (ex: hamilton)</label>
+                <input type="text" id="driver_ref" name="driver_ref" required>
+            </div>
+            <div class="form-group">
+                <label for="number">Número do Carro (opcional)</label>
+                <input type="number" id="number" name="number">
+            </div>
+            <div class="form-group">
+                <label for="code">Código 3 Letras (ex: HAM)</label>
+                <input type="text" id="code" name="code" maxlength="3" required>
+            </div>
+            <div class="form-group">
+                <label for="forename">Primeiro Nome</label>
+                <input type="text" id="forename" name="forename" required>
+            </div>
+            <div class="form-group">
+                <label for="surname">Sobrenome</label>
+                <input type="text" id="surname" name="surname" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Data de Nascimento</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="nationality">Nacionalidade</label>
+                <input type="text" id="nationality" name="nationality" required>
+            </div>
+            <div class="form-group">
+                <label for="url">URL (Wikipedia)</label>
+                <input type="url" id="url" name="url" required>
+            </div>
+            <button type="submit">Cadastrar Piloto</button>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Adicione este estilo ao seu style.css para um layout melhor */
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+.report-container h4, .form-container h4 {
+    margin-top: 0;
+    border-bottom: 2px solid #e80000;
+    padding-bottom: 0.5rem;
+}
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+.admin-actions { margin-top: 2rem; }
+.report-links { margin-bottom: 2rem; }
+.form-container { background-color: #f9f9f9; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; }
+hr { border: 0; height: 1px; background: #ddd; margin: 2rem 0; }
+</style>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h2>Relatório de Aeroportos Próximos</h2>
+<div class="form-container">
+    <p>Digite o nome de uma cidade para encontrar aeroportos (medium ou large) em um raio de 100km no Brasil.</p>
+    <form action="{{ url_for('admin_report_airports') }}" method="post">
+        <div class="form-group">
+            <label for="nome_cidade">Nome da Cidade</label>
+            <input type="text" id="nome_cidade" name="nome_cidade" required>
+        </div>
+        <button type="submit">Buscar Aeroportos</button>
+    </form>
+</div>
+<a href="{{ url_for('dashboard') }}" class="back-link">Voltar ao Dashboard</a>
+{% endblock %}
